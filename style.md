@@ -8,7 +8,7 @@
 # Uber Go Style Guide
 
 - [Introduzione](#introduzione)
-- [Linee-guida](#guidelines)
+- [Linee guida](#linee-guida)
   - [Pointers to Interfaces](#pointers-to-interfaces)
   - [Verify Interface Compliance](#verify-interface-compliance)
   - [Receivers and Interfaces](#receivers-and-interfaces)
