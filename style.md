@@ -9,7 +9,7 @@
 
 - [Introduzione](#introduzione)
 - [Linee guida](#linee-guida)
-  - [Pointers to Interfaces](#pointers-to-interfaces)
+  - [Puntatori ad Interfacce](#puntatori-ad-interfacce)
   - [Verify Interface Compliance](#verify-interface-compliance)
   - [Receivers and Interfaces](#receivers-and-interfaces)
   - [Zero-value Mutexes are Valid](#zero-value-mutexes-are-valid)
@@ -83,7 +83,8 @@ le "Cose da fare" e "Cose da non fare" quando si scrive codice Go in Uber. Quest
 esistono per mantenere il codice gestibile, consentendo comunque agli ingegneri di usare
 le funzionalità di Go in modo produttivo.
 
-Questa guida é stata creata da [Prashant Varanasi](https://github.com/prashantv) and [Simon Newton](https://github.com/nomis52) per aiutare alcuni loro colleghi a familiarizzare con l'uso di Go.
+Questa guida é stata creata da [Prashant Varanasi](https://github.com/prashantv) and [Simon Newton](https://github.com/nomis52) 
+per aiutare alcuni loro colleghi a familiarizzare con l'uso di Go.
 Durante gli anni é stata modificata e aggiornata sulla base dei feedback 
 ricevuti da altri.
 
@@ -99,21 +100,27 @@ Il nostro obbiettivo é che gli esempi di codice siano accurati per le due [vers
 recenti di Go.
 
 Tutto il codice dovrebbe essere privo di  errori quando lo si esegue tramite`golint` e `go vet`.
-Consigliamo di configurare l'editor in modo che:
+Consigliamo di configurare l'editor in modo da:
 
-- Esegua `goimports` al salvataggio
-- Esegua `golint` e `go vet` per verificare la presenza di errori
+- Eseguire `goimports` al salvataggio
+- Eseguire `golint` e `go vet` per verificare la presenza di errori
 
 Puoi trovare informazioni sul supporto per l'editor per gli strumenti Go qui:
 https://go.dev/wiki/IDEsAndTextEditorPlugins
 
 ## Linee guida
 
-### Pointers to Interfaces
+### Puntatori ad Interfacce
 
-You almost never need a pointer to an interface. You should be passing
-interfaces as values—the underlying data can still be a pointer.
+Un puntatore ad un interfaccia non é quasi mai necessario.
+È opportuno passare le interfacce come valori-i dati sottostanti possono
+comunque essere un puntatore.
+Un'interfaccia é fatta di due campi:
 
+1. Un pontatore a qualche informazione di tipo specifico. Si puó pensare a questo
+   come un "tipo".
+2. Puntatore a dati. Se il dato immagazzinato é un puntatore, questo é memorizzato
+   immediatamente.
 An interface is two fields:
 
 1. A pointer to some type-specific information. You can think of this as
