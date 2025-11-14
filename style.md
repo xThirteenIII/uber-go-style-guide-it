@@ -128,13 +128,15 @@ usare un puntatore.
 
 ### Verifica Conformitá Interfaccia
 
-Verify interface compliance at compile time where appropriate. This includes:
+Verifcare che l'interfaccia sia conforme in fase di compilazione, quando opportuno.
+Ció  include:
 
-- Exported types that are required to implement specific interfaces as part of
-  their API contract
-- Exported or unexported types that are part of a collection of types
-  implementing the same interface
-- Other cases where violating an interface would break users
+- I tipi esportati che devono implementare interfacce specifiche come parte del loro contratto API
+  
+- Tipi esportati o non esportati che fanno parte di una raccolta di tipi che implementano
+  la stessa interfaccia
+
+- Altri casi in cui violare un'interfaccia causerebbe problemi a chi la utilizza
 
 <table>
 <thead><tr><th>Bad</th><th>Good</th></tr></thead>
@@ -176,13 +178,12 @@ func (h *Handler) ServeHTTP(
 </td></tr>
 </tbody></table>
 
-The statement `var _ http.Handler = (*Handler)(nil)` will fail to compile if
-`*Handler` ever stops matching the `http.Handler` interface.
+La dichiarazione `var _ http.Handler = (*Handler)(nil)` non compila se
+`*Handler` smette di soddisfare l'interfaccia `http.Handler`.
 
-The right hand side of the assignment should be the zero value of the asserted
-type. This is `nil` for pointer types (like `*Handler`), slices, and maps, and
-an empty struct for struct types.
-
+La parte destra dell'assegnazione dovrebbe essere il valore zero del tipo
+asserito. Il che vuol dire `nil` per puntatori (come `*Handler`), slice e mappe, e
+struttura vuota per tipi strutturati.
 ```go
 type LogHandler struct {
   h   http.Handler
