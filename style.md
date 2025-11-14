@@ -10,7 +10,7 @@
 - [Introduzione](#introduzione)
 - [Linee guida](#linee-guida)
   - [Puntatori ad Interfacce](#puntatori-ad-interfacce)
-  - [Verify Interface Compliance](#verify-interface-compliance)
+  - [Verifica Conformitá Interfaccia](#verifica-conformitá-interfaccia)
   - [Receivers and Interfaces](#receivers-and-interfaces)
   - [Zero-value Mutexes are Valid](#zero-value-mutexes-are-valid)
   - [Copy Slices and Maps at Boundaries](#copy-slices-and-maps-at-boundaries)
@@ -115,23 +115,18 @@ https://go.dev/wiki/IDEsAndTextEditorPlugins
 Un puntatore ad un interfaccia non é quasi mai necessario.
 È opportuno passare le interfacce come valori-i dati sottostanti possono
 comunque essere un puntatore.
-Un'interfaccia é fatta di due campi:
+Un'interfaccia é composta da due campi:
 
-1. Un pontatore a qualche informazione di tipo specifico. Si puó pensare a questo
-   come un "tipo".
-2. Puntatore a dati. Se il dato immagazzinato é un puntatore, questo é memorizzato
-   immediatamente.
-An interface is two fields:
+1. Un pontatore a qualche informazione di tipo specifico. Si puó pensarlo come
+   il "tipo".
+2. Puntatore a dati. Se il dato memorizzato é un puntatore, questo é memorizzato
+   immediatamente. Se il dato memorizzato é un valore, allora é memorizzato il puntatore
+   a quel valore.
 
-1. A pointer to some type-specific information. You can think of this as
-   "type."
-2. Data pointer. If the data stored is a pointer, it’s stored directly. If
-   the data stored is a value, then a pointer to the value is stored.
+Se si vogliono modificare i dati sottostanti all'interfaccia tramite metodi, si é obbligati ad 
+usare un puntatore.
 
-If you want interface methods to modify the underlying data, you must use a
-pointer.
-
-### Verify Interface Compliance
+### Verifica Conformitá Interfaccia
 
 Verify interface compliance at compile time where appropriate. This includes:
 
