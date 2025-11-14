@@ -11,7 +11,7 @@
 - [Linee guida](#linee-guida)
   - [Puntatori ad Interfacce](#puntatori-ad-interfacce)
   - [Verifica Conformitá Interfaccia](#verifica-conformitá-interfaccia)
-  - [Receivers and Interfaces](#receivers-and-interfaces)
+  - [Ricevitori e Interfacce](#ricevitori-e-interfacce)
   - [Zero-value Mutexes are Valid](#zero-value-mutexes-are-valid)
   - [Copy Slices and Maps at Boundaries](#copy-slices-and-maps-at-boundaries)
   - [Defer to Clean Up](#defer-to-clean-up)
@@ -85,12 +85,12 @@ le funzionalità di Go in modo produttivo.
 
 Questa guida é stata creata da [Prashant Varanasi](https://github.com/prashantv) and [Simon Newton](https://github.com/nomis52) 
 per aiutare alcuni loro colleghi a familiarizzare con l'uso di Go.
-Durante gli anni é stata modificata e aggiornata sulla base dei feedback 
+Nel corso degli anni é stata modificata e aggiornata sulla base dei feedback 
 ricevuti da altri.
 
-Questa guida documenta inoltre le convenzioni idiomatiche che seguiamo in Uber
+La guida documenta inoltre le convenzioni idiomatiche che seguiamo in Uber
 quando scriviamo codice Go.
-Molte di queste sono guide generali, mentre altre si avvalgono di risorse esterne:
+Molte di queste sono guide generali, mentre altre si appoggiano a risorse esterne:
 
 1. [Effective Go](https://go.dev/doc/effective_go)
 2. [Go Common Mistakes](https://go.dev/wiki/CommonMistakes)
@@ -99,44 +99,43 @@ Molte di queste sono guide generali, mentre altre si avvalgono di risorse estern
 Il nostro obbiettivo é che gli esempi di codice siano accurati per le due [versioni](https://go.dev/doc/devel/release) minori più
 recenti di Go.
 
-Tutto il codice dovrebbe essere privo di  errori quando lo si esegue tramite`golint` e `go vet`.
+Tutto il codice dovrebbe essere privo di  errori quando viene analizzato con `golint` e `go vet`.
 Consigliamo di configurare l'editor in modo da:
 
 - Eseguire `goimports` al salvataggio
 - Eseguire `golint` e `go vet` per verificare la presenza di errori
 
-Puoi trovare informazioni sul supporto per l'editor per gli strumenti Go qui:
+Puoi trovare informazioni sul supporto per l'editor degli strumenti Go qui:
 https://go.dev/wiki/IDEsAndTextEditorPlugins
 
 ## Linee guida
 
 ### Puntatori ad Interfacce
 
-Un puntatore ad un interfaccia non é quasi mai necessario.
+Un puntatore ad un interfaccia é quasi sempre inutile.
 È opportuno passare le interfacce come valori-i dati sottostanti possono
 comunque essere un puntatore.
 Un'interfaccia é composta da due campi:
 
-1. Un pontatore a qualche informazione di tipo specifico. Si puó pensarlo come
-   il "tipo".
-2. Puntatore a dati. Se il dato memorizzato é un puntatore, questo é memorizzato
-   immediatamente. Se il dato memorizzato é un valore, allora é memorizzato il puntatore
+1. Un pontatore a qualche informazione di tipo specifico, cioé il "tipo".
+2. Un puntatore ai dati. Se il dato memorizzato é un puntatore, é memorizzato
+   immediatamente. Se il dato é un valore, é memorizzato il puntatore
    a quel valore.
 
-Se si vogliono modificare i dati sottostanti all'interfaccia tramite metodi, si é obbligati ad 
+Se si vogliono modificare i dati sottostanti all'interfaccia tramite metodi, é necessario 
 usare un puntatore.
 
 ### Verifica Conformitá Interfaccia
 
-Verifcare che l'interfaccia sia conforme in fase di compilazione, quando opportuno.
+Verificare che l'interfaccia sia conforme in fase di compilazione, quando opportuno.
 Ció  include:
 
-- I tipi esportati che devono implementare interfacce specifiche come parte del loro contratto API
+- Tipi esportati che devono implementare interfacce specifiche come parte del loro contratto API
   
 - Tipi esportati o non esportati che fanno parte di una raccolta di tipi che implementano
   la stessa interfaccia
 
-- Altri casi in cui violare un'interfaccia causerebbe problemi a chi la utilizza
+- Altri casi in cui violare un'interfaccia creerebbe problemi a chi la utilizza
 
 <table>
 <thead><tr><th>Bad</th><th>Good</th></tr></thead>
@@ -200,12 +199,12 @@ func (h LogHandler) ServeHTTP(
 }
 ```
 
-### Receivers and Interfaces
+### Ricevitori e Interfacce
 
-Methods with value receivers can be called on pointers as well as values.
-Methods with pointer receivers can only be called on pointers or [addressable values](https://go.dev/ref/spec#Method_values).
+I metodi con ricevitori di valori possono essere chiamati sia su puntatori sia su valori.
+I metodi con ricevitori di puntatori possono essere chiamati solo su puntatori o [valori indirizzabili](https://go.dev/ref/spec#Method_values).
 
-For example,
+Per esempio,
 
 ```go
 type S struct {
@@ -220,8 +219,8 @@ func (s *S) Write(str string) {
   s.data = str
 }
 
-// We cannot get pointers to values stored in maps, because they are not
-// addressable values.
+// Non possiamo ottenere puntatori ai valori memorizzati nelle mappe, perché
+// non sono valori indirizzabili.
 sVals := map[int]S{1: {"A"}}
 
 // We can call Read on values stored in the map because Read
