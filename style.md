@@ -117,7 +117,7 @@ Un puntatore ad un interfaccia é quasi sempre inutile.
 comunque essere un puntatore.
 Un'interfaccia é composta da due campi:
 
-1. Un pontatore a qualche informazione di tipo specifico, cioé il "tipo".
+1. Un puntatore a qualche informazione di tipo specifico, cioé il "tipo".
 2. Un puntatore ai dati. Se il dato memorizzato é un puntatore, é memorizzato
    immediatamente. Se il dato é un valore, é memorizzato il puntatore
    a quel valore.
